@@ -5,7 +5,7 @@ COPY . /app
 
 RUN npm install
 
-EXPOSE 3000
+EXPOSE 5000
 ENV APP_COLOR blue
 
 CMD ["node", "app.js"]
