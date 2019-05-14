@@ -17,4 +17,9 @@ app.get('/', function (_, res) {
     res.render('index', { title: `${color} site`, ip: podIP, counter: hitCounter, color: color, env: env})
 });
 
+app.get('/health', function (_, res) {
+    res.end("ok");
+});
+
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
