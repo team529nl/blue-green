@@ -44,6 +44,8 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
+        - name: ENV
+          value: {{ .Values.gitlab.env | quote }}
         - name: POD_IP
           valueFrom:
             fieldRef:
