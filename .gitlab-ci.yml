@@ -53,7 +53,8 @@ variables:
   ROLLOUT_RESOURCE_TYPE: deployment
   STAGING_ENABLED: 1
   CANARY_ENABLED: 1
-
+  REPLICAS: 10
+  
 stages:
   - build
   - test
