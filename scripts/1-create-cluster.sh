@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-gcloud beta container clusters create "blue-green-cluster-1" \
+gcloud beta container clusters create "blue-green-cluster" \
    --cluster-version=1.12.7-gke.10 \
    --machine-type=g1-small \
    --image-type=COS \
