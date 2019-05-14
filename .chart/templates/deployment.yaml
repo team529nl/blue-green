@@ -44,13 +44,13 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
-        ports:
-        - name: "{{ .Values.service.name }}"
-          containerPort: {{ .Values.service.internalPort }}
         - name: POD_IP
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
+        ports:
+        - name: "{{ .Values.service.name }}"
+          containerPort: {{ .Values.service.internalPort }}
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.path }}
