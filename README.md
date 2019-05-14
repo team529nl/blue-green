@@ -10,5 +10,6 @@ source: https://docs.gitlab.com/ee/user/project/clusters/
 ### Demo
 1. create cluster
 2. link cluster
-3. install istio and ingress
-4. set auto devops base domain
+3. install ingress
+4. set auto devops base domain and set dns
+5. install worker
