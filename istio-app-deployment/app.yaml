@@ -1,0 +1,108 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: blue-green-istio
+  name: bluegreen-blue
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bluegreen
+        version: blue
+    spec:
+      containers:
+      - name: bluegreen
+        image: eu.gcr.io/team529-demos/bluegreen:blue
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: blue-green-istio
+  name: bluegreen-green
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bluegreen
+        version: green
+    spec:
+      containers:
+      - name: myapp
+        image: eu.gcr.io/team529-demos/bluegreen:green
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: blue-green-istio
+  name: bluegreen
+spec:
+  hosts:
+  - bluegreen.bg-istio.demo.team529.nl
+  gateways:
+  - bluegreen-gateway
+  http:
+    - route:
+      - destination:
+          host: bluegreen
+          subset: blue
+          port:
+            number: 80
+        weight: 90
+      - destination:
+          host: bluegreen
+          subset: green
+          port:
+            number: 80
+        weight: 10
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  namespace: blue-green-istio
+  name: bluegreen
+spec:
+  host: bluegreen
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: blue
+    labels:
+      version: blue
+  - name: green
+    labels:
+      version: green
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: blue-green-istio
+  name: bluegreen
+  labels:
+    app: bluegreen
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+    name: http
+  selector:
+    app: bluegreen
