@@ -1,7 +1,10 @@
 #!/bin/bash
 
+cluster_name=${1:-blue-green-cluster}
 
-gcloud beta container clusters create "blue-green-cluster" \
+echo Creating cluster: $cluster_name
+
+gcloud beta container clusters create ${cluster_name} \
    --cluster-version=1.12.7-gke.10 \
    --machine-type=g1-small \
    --image-type=COS \
