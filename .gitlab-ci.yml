@@ -57,7 +57,7 @@ variables:
   PRODUCTION_REPLICAS: 10
   STAGING_ENABLED: 1
   CANARY_ENABLED: 1
-  INCREMENTAL_ROLLOUT_MODE: automatic
+  INCREMENTAL_ROLLOUT_MODE: manual
   
 stages:
   - build
